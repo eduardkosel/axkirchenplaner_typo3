@@ -2,7 +2,6 @@
     "name": "axist/axkirchenplaner",
     "type": "typo3-cms-extension",
     "description": "TYPO3 integration for the Kirchenplaner API",
-    "version": "3.0.0",
     "keywords": [
       "TYPO3",
       "extension"
