@@ -35,9 +35,11 @@
     },
     "extra": {
       "typo3/cms": {
-        "cms-package-dir": "{$vendor-dir}/typo3/cms",
-        "extension-key": "axkirchenplaner"
+        "extension-key": "axkirchenplaner",
+        "version": "3.0.0",
+        "Package": {
+          "providesPackages": {}
+        }
       }
     }
   }
-  
