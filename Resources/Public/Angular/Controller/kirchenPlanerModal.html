@@ -1,0 +1,50 @@
+<!-- Edit right here to make Adjustments -->
+<!-- Binding of values is done in EXT:axkirchenplaner/Resources/Public/Angular/Controller/kirchenPlanerModal.js -->
+<!--<div class="modal">
+    <div class="modal-dialog" role="document">-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- Title -->
+                <h3 class="modal-title" id="modal-title"><span ng-if="borderColor == 'ja'"><i class="fa fa-square" ng-style="getBorderColor(details)" ng-if="details.farbe_1 != ''"></i></span> {{details.titel}}</h3>
+                <button class="close" ng-click="close()"><span>&times;</span></button>
+            </div>
+            <table class="table" style="margin-bottom: 0;">
+                <!-- Image - Only loaded, when available -->
+                <tr ng-if="details.hauptbild_pfad != ''">
+                    <td colspan="2"><img ng-src="{{'http://www.portal.qsp-rlp.de/files/' + details.hauptbild_pfad}}" class="img-responsive" style="width: 100%; height: auto;" /></td>
+                <tr>
+                    <th>Zeit:</th>
+                    <td>{{details.beginn_wochentag_kurz_zwingend}}, <strong>{{details.beginn_datum_zwingend}}</strong> - {{details.beginn_zeit_zwingend}} Uhr</td>
+                </tr>
+                <!-- Description -->
+                <tr ng-if="details.beschreibung_lang != ''">
+                    <th>Beschreibung:</th>
+                    <td ng-bind-html="details.beschreibung_lang | trustedHtml"></td>
+                </tr>
+                <!-- Location -->
+                <tr ng-if="raum_name() != ''">
+                    <th>Ort:</th>
+                    <td>{{ getRaumName() }}</td>
+                </tr>
+                <!-- Coordinator -->
+                <tr ng-if="details.veranstalter != ''">
+                    <th>Veranstalter:</th>
+                    <td>{{details.veranstalter}}</td>
+                </tr>
+                </table>
+                <!-- GMaps IFrame -->
+                <iframe width="100%" height="100%" frameborder="0" ng-src="{{getOrtUrl(details) | trustedUrl}}"></iframe>
+                <!-- Debug values of resulset - Disable Comments for checkup
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <pre>{{details | json}}</pre>
+                        </div>
+                    </div>
+                </div>-->
+            <div class="modal-footer">
+                <button class="btn btn-default btn-secondary" type="button" ng-click="close()">Schließen</button>
+            </div>
+        </div>
+<!--    </div>
+</div>-->

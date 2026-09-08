@@ -1,0 +1,1 @@
+var app = angular.module("kirchenPlanerApp", ['ui.bootstrap', 'angular.filter', 'ngAnimate', 'duScroll']);

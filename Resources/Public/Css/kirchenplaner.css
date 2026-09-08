@@ -1,0 +1,94 @@
+.tx_axkirchenplaner{
+    
+}
+
+.tx_axkirchenplaner .clickable-row{
+    cursor: pointer;
+}
+
+/*Datepicker / DayPicker Styles*/
+.tx_axkirchenplaner .uib-datepicker.well{
+    background-color: transparent;
+    border: 0px;
+    box-shadow: none;
+    padding: 0px;
+}
+
+.tx_axkirchenplaner .uib-datepicker .btn-group-sm>.btn, .uib-datepicker .btn-sm{
+    font-size: inherit;
+}
+
+.tx_axkirchenplaner .uib-datepicker .text-info {
+    color: inherit !important;
+}
+
+.tx_axkirchenplaner .uib-datepicker .btn-info.active,
+.tx_axkirchenplaner .uib-datepicker .btn-info:active,
+.tx_axkirchenplaner .uib-datepicker .open>.btn-info.dropdown-toggle{
+    background-color: #586c87;
+    border-color: #586c87;
+    color: #FFFFFF!important
+}
+
+.tx_axkirchenplaner .uib-daypicker > table{
+    margin: 0 auto;
+}
+
+/*Resultset Styles */
+.tx_axkirchenplaner .results{
+    min-height: 200px;
+}
+
+.tx_axkirchenplaner .results.empty{
+    min-height: 0px;
+}
+
+.tx_axkirchenplaner .page-item.active .page-link,
+.tx_axkirchenplaner .page-item.active .page-link:focus,
+.tx_axkirchenplaner .page-item.active .page-link:hover{
+    background-color: #586c87;
+    border-color: #586c87;
+}
+
+.tx_axkirchenplaner .page-link {
+    color: #586c87;
+}
+
+.tx_axkirchenplaner .spinner{
+    position: absolute;
+    font-size: 80px;
+    left: 50%;
+    top: 50%;
+    margin-left: -40px;
+    margin-top: -40px;
+    z-index: 2;
+}
+
+.tx_axkirchenplaner .result-list{
+    opacity: 1;
+    transition: 250ms linear all;
+}
+
+.tx_axkirchenplaner .loading{
+    opacity: 0.5;
+    transition: 250ms linear all;
+}
+
+/*Loading Animations for Spinner Icon */
+
+.tx_axkirchenplaner .fade-in-out {
+    transition: 100ms linear all;
+    opacity: 1;
+}
+
+.tx_axkirchenplaner .fade-in-out.ng-hide {
+    opacity: 0;
+}
+
+/*.modal {
+    display: block;
+}*/
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}

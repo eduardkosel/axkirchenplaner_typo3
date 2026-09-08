@@ -1,0 +1,60 @@
+<!-- Copy this template to make Adjustments -->
+<!-- Binding of values is done in EXT:axkirchenplaner/Resources/Public/Angular/Controller/kirchenPlaner.js -->
+<div class="row" ng-cloak>
+    <div class="col-md-12">
+        <!-- Resultset Shown as soon as Data is fetched from API -->
+        <div class="results">
+            <!-- Spinner created with FontAwesome.io -->
+            <div class="spinner" ng-if="fetchingData"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i></div>
+            <div class="result-list" ng-if="!fetchingData && (totalResults > 0)">
+                <div class="row">
+                    <!-- Header Area with date - title and subtitle -->
+                    <div class="col-md-12">
+                        <p>{{results[0].beginn_wochentag_kurz_zwingend}}, {{results[0].beginn_datum}} - {{results[0].beginn_zeit}} Uhr</p>
+                        <h1><span ng-if="borderColors == 'ja'"><i class="fa fa-square" ng-style="getBorderColor(results[0])" ng-if="results[0].farbe_1 != ''"></i></span> {{results[0].titel}}</h1>
+                        <h2 ng-if="results[0].untertitel != ''">{{results[0].untertitel}}</h2>
+                    </div>
+                    <!-- Image only shown when loaded -->
+                    <div class="col-md-3" ng-if="results[0].hauptbild_pfad != ''">
+                        <img ng-src="http://www.portal.qsp-rlp.de/files/{{results[0].hauptbild_pfad}}" class="img-responsive img-fluid" />
+                    </div>
+                    <!-- Result set rendered with responsive table -->
+                    <div class="{{results[0].hauptbild_pfad_absolut != '' ? 'col-md-9' : 'col-md-12'}}">
+                        <!-- Description -->
+                        <p ng-bind-html="results[0].beschreibung_lang | trustedHtml"></p>
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr ng-if="results[0].ansprechpartner != ''">
+                                    <th>Leitung</th>
+                                    <td>{{results[0].ansprechpartner}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Ort</th>
+                                    <td>{{getOrt(results[0])}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Veranstalter</th>
+                                    <td>{{results[0].veranstalter}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-12">
+                        <iframe width="100%" height="100%" frameborder="0" ng-src="{{getOrtUrl(results[0]) | trustedUrl}}" style="margin-top: 15px;"></iframe>
+                    </div>
+                    <div class="col-md-12">
+                        <p style="margin-top: 10px;"><a role="button" ng-href="{{getBacklink()}}" class="btn btn-default btn-secondary" style="margin-top: 15px;"><i class="fa fa-chevron-left"></i> Zurück</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="alert alert-danger" ng-if="!fetchingData && (totalResults == 0)">
+            Zu den eingegeben Kriterien konnten keine Termine gefunden werden.
+        </div>
+    </div>
+    <!-- Debug values of resulset - Disable Comments for checkup
+    <div class="col-md-12">
+        <pre>{{results | json}}</pre>
+    </div>
+    -->
+</div>

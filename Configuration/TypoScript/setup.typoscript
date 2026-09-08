@@ -1,0 +1,21 @@
+plugin.tx_axkirchenplaner_termine {
+	view {
+		templateRootPaths.10 = EXT:axkirchenplaner/Resources/Private/Templates/
+		partialRootPaths.10 = EXT:axkirchenplaner/Resources/Private/Partials/
+		layoutRootPaths.10 = EXT:axkirchenplaner/Resources/Private/Layouts/
+	}
+	persistence {
+		storagePid =
+	}
+}
+config{
+	sendCacheHeaders = 1
+	enableContentLengthHeader = 1
+	additionalHeaders = Cache-Control: no-cache | Connection: keep-alive
+	moveJsFromHeaderToFooter = 1
+	htmlTag_setParams = ng-app="kirchenPlanerApp"
+	no_cache = 1
+}
+
+#page < temp.mask.page
+#page.bodyTagAdd = ng-app="kirchenPlanerApp"

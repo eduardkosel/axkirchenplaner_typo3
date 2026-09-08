@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<T3DataStructure>
+<meta>
+    <langChildren>0</langChildren>
+    <langDisable>1</langDisable>
+</meta>
+<sheets>
+    <sDEF>
+        <ROOT>
+                <sheetTitle>Darstellung</sheetTitle>
+            <type>array</type>
+            <el>
+                <settings.pageconfig.framework>
+                        <label>Framework laden? (BS3 / BS4 laden, wenn nicht bereits von Distribution geschehen)</label>
+                        <config>
+                            <type>select</type>
+                            <default>keinframework</default>
+                            <items type="array">
+                                <numIndex index="0" type="array">
+                                    <numIndex index="0">Kein Framework</numIndex>
+                                    <numIndex index="1">keinframework</numIndex>
+                                </numIndex>
+                                <numIndex index="1" type="array">
+                                    <numIndex index="0">Bootstrap 3</numIndex>
+                                    <numIndex index="1">bootstrap3</numIndex>
+                                </numIndex>
+                                <numIndex index="2" type="array">
+                                    <numIndex index="0">Bootstrap 4</numIndex>
+                                    <numIndex index="1">bootstrap4</numIndex>
+                                </numIndex>
+                            </items>
+                        </config>
+                </settings.pageconfig.framework>
+                <settings.pageconfig.seitentyp>
+                        <label>Seitentyp</label>
+                        <onChange>reload</onChange>
+                        <config>
+                            <type>select</type>
+                            <default>auflistung</default>
+                            <items type="array">
+                                <numIndex index="0" type="array">
+                                    <numIndex index="0">Auflistungsseite</numIndex>
+                                    <numIndex index="1">auflistung</numIndex>
+                                </numIndex>
+                                <numIndex index="1" type="array">
+                                    <numIndex index="0">Detailseite</numIndex>
+                                    <numIndex index="1">details</numIndex>
+                                </numIndex>
+                            </items>
+                        </config>
+                </settings.pageconfig.seitentyp>
+                <settings.pageconfig.templatedatei>
+                        <label>Template Datei</label>
+                        <config>
+                            <type>group</type>
+                            <internal_type>file_reference</internal_type>
+                            <allowed>html</allowed>
+                            <size>1</size>
+                            <maxitems>1</maxitems>
+                            <minitems>0</minitems>
+                        </config>
+                </settings.pageconfig.templatedatei>
+                <settings.pageconfig.cssdatei>
+                        <label>CSS Datei</label>
+                        <config>
+                            <type>group</type>
+                            <internal_type>file_reference</internal_type>
+                            <allowed>css</allowed>
+                            <size>1</size>
+                            <maxitems>1</maxitems>
+                            <minitems>0</minitems>
+                        </config>
+                </settings.pageconfig.cssdatei>
+                <settings.pageconfig.detaillinktyp>
+                        <label>Verlinkung zu den Details</label>
+                        <onChange>reload</onChange>
+                        <displayCond>
+                            <OR>
+                                <numIndex index="0">FIELD:settings.pageconfig.seitentyp:=:</numIndex>
+                                <numIndex index="1">FIELD:settings.pageconfig.seitentyp:=:auflistung</numIndex>
+                            </OR>
+                        </displayCond>
+                        <config>
+                            <type>select</type>
+                            <items type="array">
+                                <numIndex index="0" type="array">
+                                    <numIndex index="0">per Modal-Popup</numIndex>
+                                    <numIndex index="1">modal</numIndex>
+                                </numIndex>
+                                <numIndex index="1" type="array">
+                                    <numIndex index="0">per Link zur Detailseite</numIndex>
+                                    <numIndex index="1">linkdetailseite</numIndex>
+                                </numIndex>
+                            </items>
+                        </config>
+                </settings.pageconfig.detaillinktyp>
+                <settings.pageconfig.detailseite>
+                        <label>Detail-Seite</label>
+                        <displayCond>
+                            <AND>
+                                <numIndex index="0">FIELD:settings.pageconfig.seitentyp:=:auflistung</numIndex>
+                                <numIndex index="1">FIELD:settings.pageconfig.detaillinktyp:=:linkdetailseite</numIndex>
+                            </AND>
+                        </displayCond>
+                        <config>
+                            <type>group</type>
+                            <internal_type>db</internal_type>
+                            <allowed>pages</allowed>
+                            <size>1</size>
+                            <maxitems>1</maxitems>
+                            <minitems>0</minitems>
+                            <show_thumbs>1</show_thumbs>
+                        </config>
+                </settings.pageconfig.detailseite>
+                <settings.pageconfig.eintraegeproseite>
+                        <label>Einträge pro Seite</label>
+                        <displayCond>
+                            <OR>
+                                <numIndex index="0">FIELD:settings.pageconfig.seitentyp:=:</numIndex>
+                                <numIndex index="1">FIELD:settings.pageconfig.seitentyp:=:auflistung</numIndex>
+                            </OR>
+                        </displayCond>
+                        <config>
+                            <default>10</default>
+                            <type>input</type>
+                            <eval>int</eval>
+                            <size>4</size>
+                        </config>
+                </settings.pageconfig.eintraegeproseite>
+                <settings.pageconfig.feiertage>
+                        <label>Feiertage</label>
+                        <displayCond>
+                            <OR>
+                                <numIndex index="0">FIELD:settings.pageconfig.seitentyp:=:</numIndex>
+                                <numIndex index="1">FIELD:settings.pageconfig.seitentyp:=:auflistung</numIndex>
+                            </OR>
+                        </displayCond>
+                        <config>
+                            <type>select</type>
+                            <items type="array">
+                                <numIndex index="1" type="array">
+                                    <numIndex index="0">keine</numIndex>
+                                    <numIndex index="1">keine</numIndex>
+                                </numIndex>
+                                <numIndex index="2" type="array">
+                                    <numIndex index="0">protestantisch</numIndex>
+                                    <numIndex index="1">protestantisch</numIndex>
+                                </numIndex>
+                                <numIndex index="3" type="array">
+                                    <numIndex index="0">katholisch</numIndex>
+                                    <numIndex index="1">katholisch</numIndex>
+                                </numIndex>
+                                <numIndex index="4" type="array">
+                                    <numIndex index="0">protestantisch+katholisch</numIndex>
+                                    <numIndex index="1">protestantisch+katholisch</numIndex>
+                                </numIndex>
+                            </items>
+                        </config>
+                </settings.pageconfig.feiertage>
+                <settings.pageconfig.datumgruppieren>
+                        <label>Termine nach Datum gruppieren?</label>
+                        <displayCond>
+                            <OR>
+                                <numIndex index="0">FIELD:settings.pageconfig.seitentyp:=:</numIndex>
+                                <numIndex index="1">FIELD:settings.pageconfig.seitentyp:=:auflistung</numIndex>
+                            </OR>
+                        </displayCond>
+                        <config>
+                            <type>select</type>
+                            <items type="array">
+                                <numIndex index="0" type="array">
+                                    <numIndex index="0">Nein</numIndex>
+                                    <numIndex index="1">nein</numIndex>
+                                </numIndex>
+                                <numIndex index="1" type="array">
+                                    <numIndex index="0">Ja</numIndex>
+                                    <numIndex index="1">ja</numIndex>
+                                </numIndex>
+                            </items>
+                        </config>
+                </settings.pageconfig.datumgruppieren>
+                <settings.pageconfig.randfarben>
+                        <label>Termine farblich hervorheben?</label>
+                        <config>
+                            <type>select</type>
+                            <items type="array">
+                                <numIndex index="0" type="array">
+                                    <numIndex index="0">Nein</numIndex>
+                                    <numIndex index="1">nein</numIndex>
+                                </numIndex>
+                                <numIndex index="1" type="array">
+                                    <numIndex index="0">Ja</numIndex>
+                                    <numIndex index="1">ja</numIndex>
+                                </numIndex>
+                            </items>
+                        </config>
+                </settings.pageconfig.randfarben>
+                <settings.pageconfig.paginierungzeigen>
+                        <label>Paginierung zeigen?</label>
+                        <displayCond>
+                            <OR>
+                                <numIndex index="0">FIELD:settings.pageconfig.seitentyp:=:</numIndex>
+                                <numIndex index="1">FIELD:settings.pageconfig.seitentyp:=:auflistung</numIndex>
+                            </OR>
+                        </displayCond>
+                        <config>
+                            <type>select</type>
+                            <items type="array">
+                                <numIndex index="0" type="array">
+                                    <numIndex index="0">Oben</numIndex>
+                                    <numIndex index="1">oben</numIndex>
+                                </numIndex>
+                                <numIndex index="1" type="array">
+                                    <numIndex index="0">Unten</numIndex>
+                                    <numIndex index="1">unten</numIndex>
+                                </numIndex>
+                                <numIndex index="2" type="array">
+                                    <numIndex index="0">Oben &amp; Unten</numIndex>
+                                    <numIndex index="1">obenunten</numIndex>
+                                </numIndex>
+                                <numIndex index="3" type="array">
+                                    <numIndex index="0">Ausblenden</numIndex>
+                                    <numIndex index="1">ausblenden</numIndex>
+                                </numIndex>
+                            </items>
+                        </config>
+                </settings.pageconfig.paginierungzeigen>
+                <settings.pageconfig.zusatztermine>
+                        <label>Zusatztermine anzeigen</label>
+                        <displayCond>
+                            <OR>
+                                <numIndex index="0">FIELD:settings.pageconfig.seitentyp:=:</numIndex>
+                                <numIndex index="1">FIELD:settings.pageconfig.seitentyp:=:auflistung</numIndex>
+                            </OR>
+                        </displayCond>
+                        <config>
+                            <type>select</type>
+                            <items type="array">
+                                <numIndex index="0" type="array">
+                                    <numIndex index="0">Nein</numIndex>
+                                    <numIndex index="1">nein</numIndex>
+                                </numIndex>
+                                <numIndex index="1" type="array">
+                                    <numIndex index="0">Ja</numIndex>
+                                    <numIndex index="1">ja</numIndex>
+                                </numIndex>
+                            </items>
+                        </config>
+                </settings.pageconfig.zusatztermine>
+            </el>
+        </ROOT>
+    </sDEF>
+    <sDEF2>
+        <ROOT>
+                <sheetTitle>Query-Optionen</sheetTitle>
+            <type>array</type>
+            <el>
+                <settings.query.abruftage>
+                        <label>Abzurufende Tage</label>
+                        <displayCond>
+                            <OR>
+                                <numIndex index="0">FIELD:sDEF.settings.pageconfig.seitentyp:=:</numIndex>
+                                <numIndex index="1">FIELD:sDEF.settings.pageconfig.seitentyp:=:auflistung</numIndex>
+                            </OR>
+                        </displayCond>
+                        <config>
+                            <default>10</default>
+                            <type>input</type>
+                            <eval>int</eval>
+                            <size>4</size>
+                        </config>
+                </settings.query.abruftage>
+                <settings.query.gemeinden>
+                        <exclude>1</exclude>
+                        <label>Gemeinden</label>
+                        <config>
+                            <type>select</type>
+                            <autoSizeMax>50</autoSizeMax>
+                            <itemsProcFunc>tx_axkirchenplaner_addCustomFieldsToFlexForm->addCommunities</itemsProcFunc>
+                            <maxitems>9999</maxitems>
+                            <renderMode>tree</renderMode>
+                            <size>10</size>
+                            <treeConfig>
+                                <appearance>
+                                    <expandAll>1</expandAll>
+                                    <showHeader>1</showHeader>
+                                </appearance>
+                                <parentField>parent</parentField>
+                            </treeConfig>
+                        </config>
+                </settings.query.gemeinden>
+                <settings.query.unterorganisationen>
+                        <label>Unterorganisationen einschließen?</label>
+                        <config>
+                            <type>select</type>
+                            <items type="array">
+                                <numIndex index="0" type="array">
+                                    <numIndex index="0">Ja</numIndex>
+                                    <numIndex index="1">ja</numIndex>
+                                </numIndex>
+                                <numIndex index="1" type="array">
+                                    <numIndex index="0">Nein</numIndex>
+                                    <numIndex index="1">nein</numIndex>
+                                </numIndex>
+                            </items>
+                        </config>
+                </settings.query.unterorganisationen>
+                <settings.query.rubriken>
+                        <label>Kategorien</label>
+                        <config>
+                            <type>select</type>
+                            <itemsProcFunc>tx_axkirchenplaner_addCustomFieldsToFlexForm->addTopics</itemsProcFunc>
+                            <size>10</size>
+                            <autosizemax>10</autosizemax>
+                            <maxitems>99</maxitems>
+                            <minitems>0</minitems>
+                        </config>
+                </settings.query.rubriken>
+                <settings.query.zielgruppen>
+                        <label>Zielgruppen</label>
+                        <config>
+                            <type>select</type>
+                            <itemsProcFunc>tx_axkirchenplaner_addCustomFieldsToFlexForm->addTargetAudiences</itemsProcFunc>
+                            <size>10</size>
+                            <autosizemax>10</autosizemax>
+                            <maxitems>99</maxitems>
+                            <minitems>0</minitems>
+                        </config>
+                </settings.query.zielgruppen>
+                <settings.query.orte>
+                        <label>Orte</label>
+                        <config>
+                            <type>select</type>
+                            <itemsProcFunc>tx_axkirchenplaner_addCustomFieldsToFlexForm->addLocations</itemsProcFunc>
+                            <size>10</size>
+                            <autosizemax>10</autosizemax>
+                            <maxitems>99</maxitems>
+                            <minitems>0</minitems>
+                        </config>
+                </settings.query.orte>
+                <settings.query.termine>
+                        <label>Veranstaltungs-IDs (mit Komma getrennt)</label>
+                        <config>
+                            <type>input</type>
+                            <size>50</size>
+                            <max>50</max>
+                            <eval>trim</eval>
+                        </config>
+                </settings.query.termine>
+            </el>
+        </ROOT>
+    </sDEF2>
+    <sDEF3>
+        <ROOT>
+                <sheetTitle>Such-Optionen</sheetTitle>
+            <el>
+                <settings.search.anzeigen>
+                        <label>Suche benutzen?</label>
+                        <onChange>reload</onChange>
+                        <config>
+                            <type>select</type>
+                            <items type="array">
+                                <numIndex index="0" type="array">
+                                    <numIndex index="0">Ausblenden</numIndex>
+                                    <numIndex index="1">nein</numIndex>
+                                </numIndex>
+                                <numIndex index="1" type="array">
+                                    <numIndex index="0">Über den Ergebnissen</numIndex>
+                                    <numIndex index="1">oben</numIndex>
+                                </numIndex>
+                                <numIndex index="2" type="array">
+                                    <numIndex index="0">Links neben den Ergebnissen</numIndex>
+                                    <numIndex index="1">links</numIndex>
+                                </numIndex>
+                                <numIndex index="3" type="array">
+                                    <numIndex index="0">Rechts neben den Ergebnissen</numIndex>
+                                    <numIndex index="1">rechts</numIndex>
+                                </numIndex>
+                            </items>
+                        </config>
+                </settings.search.anzeigen>
+                <settings.search.kalender>
+                        <label>Datumselektor?</label>
+                        <displayCond>
+                            <AND>
+                                <numIndex index="0">FIELD:settings.search.anzeigen:!=:</numIndex>
+                                <numIndex index="1">FIELD:settings.search.anzeigen:!=:nein</numIndex>
+                            </AND>
+                        </displayCond>
+                        <config>
+                            <type>select</type>
+                            <items type="array">
+                                <numIndex index="0" type="array">
+                                    <numIndex index="0">Ausblenden</numIndex>
+                                    <numIndex index="1">nein</numIndex>
+                                </numIndex>
+                                <numIndex index="1" type="array">
+                                    <numIndex index="0">Startdatum</numIndex>
+                                    <numIndex index="1">start</numIndex>
+                                </numIndex>
+                                <numIndex index="2" type="array">
+                                    <numIndex index="0">Start- und Enddatum</numIndex>
+                                    <numIndex index="1">startende</numIndex>
+                                </numIndex>
+                                <numIndex index="3" type="array">
+                                    <numIndex index="0">Kalender</numIndex>
+                                    <numIndex index="1">kalender</numIndex>
+                                </numIndex>
+                            </items>
+                        </config>
+                </settings.search.kalender>
+                <settings.search.vergangenheit>
+                        <label>Datumsselektion in Vergangenheit erlauben?</label>
+                        <displayCond>
+                            <AND>
+                                <numIndex index="0">FIELD:settings.search.anzeigen:!=:</numIndex>
+                                <numIndex index="1">FIELD:settings.search.anzeigen:!=:nein</numIndex>
+                            </AND>
+                        </displayCond>
+                        <config>
+                            <type>select</type>
+                            <items type="array">
+                                <numIndex index="0" type="array">
+                                    <numIndex index="0">Nein</numIndex>
+                                    <numIndex index="1">nein</numIndex>
+                                </numIndex>
+                                <numIndex index="1" type="array">
+                                    <numIndex index="0">Ja</numIndex>
+                                    <numIndex index="1">ja</numIndex>
+                                </numIndex>
+                            </items>
+                        </config>
+                </settings.search.vergangenheit>
+                <settings.search.kategorien>
+                        <label>Kategorien</label>
+                        <displayCond>
+                            <AND>
+                                <numIndex index="0">FIELD:settings.search.anzeigen:!=:</numIndex>
+                                <numIndex index="1">FIELD:settings.search.anzeigen:!=:nein</numIndex>
+                            </AND>
+                        </displayCond>
+                        <config>
+                            <type>select</type>
+                            <itemsProcFunc>tx_axkirchenplaner_addCustomFieldsToFlexForm->addTopics</itemsProcFunc>
+                            <size>10</size>
+                            <autosizemax>10</autosizemax>
+                            <maxitems>99</maxitems>
+                            <minitems>0</minitems>
+                        </config>
+                </settings.search.kategorien>
+                <settings.search.zielgruppen>
+                        <label>Zielgruppen</label>
+                        <displayCond>
+                            <AND>
+                                <numIndex index="0">FIELD:settings.search.anzeigen:!=:</numIndex>
+                                <numIndex index="1">FIELD:settings.search.anzeigen:!=:nein</numIndex>
+                            </AND>
+                        </displayCond>
+                        <config>
+                            <type>select</type>
+                            <itemsProcFunc>tx_axkirchenplaner_addCustomFieldsToFlexForm->addTargetAudiences</itemsProcFunc>
+                            <size>10</size>
+                            <autosizemax>10</autosizemax>
+                            <maxitems>99</maxitems>
+                            <minitems>0</minitems>
+                        </config>
+                </settings.search.zielgruppen>
+                <settings.search.orte>
+                        <label>Orte</label>
+                        <displayCond>
+                            <AND>
+                                <numIndex index="0">FIELD:settings.search.anzeigen:!=:</numIndex>
+                                <numIndex index="1">FIELD:settings.search.anzeigen:!=:nein</numIndex>
+                            </AND>
+                        </displayCond>
+                        <config>
+                            <type>select</type>
+                            <itemsProcFunc>tx_axkirchenplaner_addCustomFieldsToFlexForm->addLocations</itemsProcFunc>
+                            <size>10</size>
+                            <autosizemax>10</autosizemax>
+                            <maxitems>99</maxitems>
+                            <minitems>0</minitems>
+                        </config>
+                </settings.search.orte>
+                <settings.search.textsuche>
+                        <label>Volltextsuche anzeigen?</label>
+                        <displayCond>
+                            <AND>
+                                <numIndex index="0">FIELD:settings.search.anzeigen:!=:</numIndex>
+                                <numIndex index="1">FIELD:settings.search.anzeigen:!=:nein</numIndex>
+                            </AND>
+                        </displayCond>
+                        <config>
+                            <type>select</type>
+                            <items type="array">
+                                <numIndex index="0" type="array">
+                                    <numIndex index="0">Ja</numIndex>
+                                    <numIndex index="1">ja</numIndex>
+                                </numIndex>
+                                <numIndex index="1" type="array">
+                                    <numIndex index="0">Nein</numIndex>
+                                    <numIndex index="1">nein</numIndex>
+                                </numIndex>
+                            </items>
+                        </config>
+                </settings.search.textsuche>
+            </el>
+        </ROOT>
+    </sDEF3>
+    <sDEF4>
+        <ROOT>
+                <sheetTitle>HTML-Content</sheetTitle>
+            <el>
+                <settings.html.content>
+                        <label>HTML Content</label>
+                        <config>
+                            <type>text</type>
+                            <cols>35</cols>
+                            <rows>4</rows>
+                        </config>
+                        <defaultExtras>richtext[cut|copy|paste|formatblock|bold|italic|underline|left|center|right|orderedlist|unorderedlist|outdent|indent|link|image|line|chMode]</defaultExtras>
+                </settings.html.content>
+            </el>
+        </ROOT>
+    </sDEF4>
+</sheets>
+</T3DataStructure>

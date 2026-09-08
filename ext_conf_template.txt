@@ -1,0 +1,8 @@
+# cat=basic; type=string; label=API Key:
+apiKey =
+# cat=basic; type=string; label=API URL
+apiUrl = https://www.portal.kirchenplaner.de/
+# cat=basic; type=options[4|Kirchenplaner,13|Mitteilungen,14|Termine,15|IKF Landau]; label=Usergroup:
+userGroup = 4|Kirchenplaner
+# cat=basic; type=options[UTF-8,ISO-8859-1]; label=Encoding
+encoding = UTF-8

@@ -1,0 +1,51 @@
+<f:layout name="Default" />
+<f:section name="main">
+    <script>
+        kirchenplaner_config[{uid}] = {
+        apiKey : "<f:format.raw>{apiKey}</f:format.raw>",
+        apiUrl : "<f:format.raw>{apiUrl}</f:format.raw>",
+        baseUrl : "<f:format.raw>{baseUrl}</f:format.raw>",
+        pageId : "<f:format.raw>{page_id}</f:format.raw>",
+        userGroup : "<f:format.raw>{userGroup}</f:format.raw>",
+        topics : "<f:format.raw>{topics}</f:format.raw>",
+        locations : "<f:format.raw>{locations}</f:format.raw>",
+        targetAudience : "<f:format.raw>{targetAudience}</f:format.raw>",
+        htmlTemplate : "<f:format.raw>{htmlTemplate}</f:format.raw>",
+        detailLinkType : "<f:format.raw>{detailLinkType}</f:format.raw>",
+        detailsPage : "<f:format.raw>{detailsPage}</f:format.raw>",
+        groupItems : "<f:format.raw>{groupItems}</f:format.raw>",
+        borderColors : "<f:format.raw>{borderColors}</f:format.raw>",
+        showPagination : "<f:format.raw>{showPagination}</f:format.raw>",
+        format : "<f:format.raw>{format}</f:format.raw>",
+        startDate : "<f:format.raw>{startDate}</f:format.raw>",
+        endDate : "<f:format.raw>{endDate}</f:format.raw>",
+        daysToFetch : "<f:format.raw>{daysToFetch}</f:format.raw>",
+        communities : "<f:format.raw>{communities}</f:format.raw>",
+        includeSubCommunities : "<f:format.raw>{includeSubCommunities}</f:format.raw>",
+        itemsPerPage : "<f:format.raw>{itemsPerPage}</f:format.raw>",
+        holidays : "<f:format.raw>{holidays}</f:format.raw>",
+        additionalItems : "<f:format.raw>{additionalItems}</f:format.raw>",
+        items : "<f:format.raw>{items}</f:format.raw>",
+        detailItem : "<f:format.raw>{detailItem}</f:format.raw>",
+        displaySearch : "<f:format.raw>{displaySearch}</f:format.raw>",
+        searchWidth : "<f:format.raw>{searchWidth}</f:format.raw>",
+        searchTextSearch : "<f:format.raw>{searchTextSearch}</f:format.raw>",
+        searchTextSearchValue : "<f:format.raw>{searchTextSearchValue}</f:format.raw>",
+        searchCalendar : "<f:format.raw>{searchCalendar}</f:format.raw>",
+        searchPast : "<f:format.raw>{searchPast}</f:format.raw>",
+        searchCategories : <f:format.raw>{searchCategories}</f:format.raw>,
+        searchCategoryValue : "<f:format.raw>{searchCategoryValue}</f:format.raw>",
+        searchTargetAudiences : <f:format.raw>{searchTargetAudiences}</f:format.raw>,
+        searchTargetAudienceValue : "<f:format.raw>{searchTargetAudienceValue}</f:format.raw>",
+        searchLocations : <f:format.raw>{searchLocations}</f:format.raw>,
+        searchLocationValue : "<f:format.raw>{searchLocationValue}</f:format.raw>",
+        searchCommunities : <f:format.raw>{searchCommunities}</f:format.raw>,
+        searchCommunityValue : "<f:format.raw>{searchCommunityValue}</f:format.raw>",
+        }
+    </script>
+    <div class="tx_axkirchenplaner" ng-controller="kirchenPlanerCtrl" ng-init="init_uid({uid})">
+        <!-- Rendering done in Templates located in EXT:axkirchenplaner/Resources/Public/Angular/templates/ or Custom Template defined in TYPO3 Backend -->
+        <!-- Copy them and upload custom template to adjust layout to your needs -->
+        <div ng-include="template"></div>
+    </div>
+</f:section>

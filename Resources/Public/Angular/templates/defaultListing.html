@@ -1,0 +1,248 @@
+<!-- Copy this template to make Adjustments -->
+<!-- Binding of values is done in EXT:axkirchenplaner/Resources/Public/Angular/Controller/kirchenPlaner.js -->
+<div class="row" ng-cloak>
+    <!-- Search Module for display above and left of the resultset -->
+    <div ng-class="getWidth()" ng-if="(search.displaySearch == 'links' || search.displaySearch == 'oben')">
+        <div class="row">
+            <!-- Calendar StartDate - As Inputfield with Datepicker-attachment -->
+            <div ng-class="search.calendar == 'start' ? 'col-md-12' : 'col-md-6'" ng-if="(search.calendar == 'start' || search.calendar == 'startende')">
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            Von...
+                        </span>
+                        <input type="text" class="form-control" uib-datepicker-popup="{{startDateOptions.format}}" ng-model="input.startDate" ng-change="input.currentPage = 1" is-open="startDateDialog.opened" datepicker-options="startDateOptions" ng-required="true" close-text="Schließen" clear-text="Zurücksetzen" current-text="Heute"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openStartDateDialog()"><i class="fa fa-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- Calendar EndDate - As Inputfield with Datepicker-attachment -->
+            <div class="col-md-6" ng-if="(search.calendar == 'startende')">
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            ...bis..
+                        </span>
+                        <input type="text" class="form-control" uib-datepicker-popup="{{endDateOptions.format}}" ng-model="input.endDate" ng-change="input.currentPage = 1" is-open="endDateDialog.opened" datepicker-options="endDateOptions" ng-required="true" close-text="Schließen" clear-text="Zurücksetzen" current-text="Heute"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openEndDateDialog()"><i class="fa fa-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- Calendar StartDAte - As Calendar Datepicker without Inputfield -->
+            <div class="col-md-12 text-center" ng-if="(search.calendar == 'kalender')">
+                <div class="form-group">
+                    <div uib-datepicker ng-model="input.startDate" ng-change="input.currentPage = 1" class="well well-sm" datepicker-options="startDateOptions"></div>
+                </div>
+            </div>
+            <!-- Community-Picker -->
+            <div class="col-md-12" ng-if="search.communities.length > 0">
+                <div class="form-group">
+                    <select class="form-control" ng-model="input.communities">
+                        <option value="">Alle Gemeinden</option>
+                        <option ng-repeat="c in search.communities" value="{{c.id}}">{{c.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Category-Picker -->
+            <div class="col-md-12" ng-if="search.categories.length > 0">
+                <div class="form-group">
+                    <select class="form-control" ng-model="input.category">
+                        <option value="">Alle Kategorien</option>
+                        <option ng-repeat="cat in search.categories" value="{{cat.id}}">{{cat.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Target Audiences Select-Box -->
+            <div class="col-md-12" ng-if="search.targetAudiences.length > 0">
+                <div class="form-group">
+                    <select class="form-control" ng-model="input.targetAudience">
+                        <option value="">Alle Zielgruppen</option>
+                        <option ng-repeat="t in search.targetAudiences" value="{{t.id}}">{{t.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Locations Selectbox -->
+            <div class="col-md-12" ng-if="search.locations.length > 0">
+                <div class="form-group">
+                    <select class="form-control" ng-model="input.location">
+                        <option value="">Alle Orte</option>
+                        <option ng-repeat="l in search.locations" value="{{l.id}}">{{l.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Text Search Inputfield -->
+            <div class="col-md-12" ng-if="search.textSearch == 'ja'">
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                        <input type="text" class="form-control" placeholder="Suche" ng-model="input.search" ng-model-options="{ debounce: 500 }">
+                    </div>
+                </div>
+            </div>
+            <!-- Reset Button -->
+            <div class="col-md-12">
+                <p><button class="btn btn-default btn-secondary btn-block" ng-click="resetInput()">Filter zurücksetzen</button></p>
+            </div>
+            
+        </div>
+    </div>
+    <!-- Resultset -->
+    <div ng-class="getWidth()" ng-style="search.displaySearch == 'oben' ? {'margin-top':'10px'} : {}">
+        <p ng-if="!fetchingData && (totalResults == 0)">
+            Zu den eingegeben Kriterien konnten keine Termine gefunden werden.
+        </p>
+        <!-- Pagination -->
+        <div id="pagination-top-{{uid}}" class="center-block text-center text-xs-center" ng-if="(showPagination == 'oben' || showPagination == 'obenunten') && totalResults > itemsPerPage">
+            <ul uib-pagination class="pagination" force-ellipses="true" rotate="true" boundary-links="true" total-items="totalResults" items-per-page="itemsPerPage" ng-model="input.currentPage" ng-model-options="{debounce: 100}" max-size="maxSize" style="margin-top: 0px;" first-text="&lsaquo;&lsaquo;" previous-text="&lsaquo;" next-text="&rsaquo;" last-text="&rsaquo;&rsaquo;"></ul>
+        </div>
+        <!-- Result-Wrapper -->
+        <div class="results" ng-class="!fetchingData && totalResults == 0 ? 'empty' : '' ">
+            <!-- Loading Animation created with FontAwesome.io -->
+            <div class="spinner fade-in-out" ng-show="fetchingData"><i class="fa fa-circle-o-notch fa-spin"></i></div>
+            <!-- Result List Rendering -->
+            <div class="result-list" ng-class="fetchingData ? 'loading' : ''">
+                <!-- Results grouped if selected - Done with https://github.com/a8m/angular-filter -->
+                <div ng-if="groupItems == 'ja'">
+                    <!-- Groupname is held in key - Array of Results is held in value -->
+                    <table class="table table-condensed table-sm table-hover slide" ng-repeat="(key,value) in results | groupBy: 'beginn_datum_zwingend'">
+                        <thead>
+                        <tr>
+                            <td>{{value[0].beginn_wochentag_kurz_zwingend}}, <strong>{{key}}</strong> <span class="text-muted" ng-bind-html="getHoliday(first(value)) | trustedHtml"></span></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="r in value" ng-click="detailLinkType == 'modal' ? openDetailsModal(r) : openDetailsPage(r)" class="clickable-row">
+                            <td ng-style="(borderColors == 'ja') ? getBorderStyle(r) : {}">
+                                {{r.beginn_zeit_zwingend}} Uhr <strong>{{r.titel}}</strong><br/>
+                                <span ng-if="r.untertitel != ''">{{r.untertitel}}<br /></span>
+                                <span ng-if="r.ansprechpartner != ''">{{r.ansprechpartner}}<br /></span>
+                                {{r.raum_name_lang}}, {{r.raum_ort + ' ' + (r.raum_teilort != '' ? ' - ' + r.raum_teilort : '')}}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- No Result-Grouping done here -->
+                <div ng-if="groupItems == 'nein'">
+                    <!-- Array of results is held in variable results -->
+                    <table class="table table-condensed table-sm table-hover" ng-repeat="r in results">
+                        <thead>
+                        <tr>
+                            <td>{{r.beginn_wochentag_kurz_zwingend}}, <strong>{{r.beginn_datum_zwingend}}</strong> <span class="text-muted" ng-bind-html="getHoliday(r) | trustedHtml"></span></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-click="detailLinkType == 'modal' ? openDetailsModal(r) : openDetailsPage(r)" class="clickable-row">
+                            <td ng-style="(borderColors == 'ja') ? getBorderStyle(r) : {}">
+                                {{r.beginn_zeit_zwingend}} Uhr <strong>{{r.titel}}</strong><br/>
+                                <span ng-if="r.untertitel != ''">{{r.untertitel}}<br /></span>
+                                <span ng-if="r.ansprechpartner != ''">{{r.ansprechpartner}}<br /></span>
+                                {{r.raum_name_lang}}, {{r.raum_ort + ' ' + (r.raum_teilort != '' ? ' - ' + r.raum_teilort : '')}}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Pagination -->
+        <div id="pagination-bottom-{{uid}}" class="center-block text-center text-xs-center" ng-if="(showPagination == 'unten' || showPagination == 'obenunten') && totalResults > itemsPerPage">
+            <ul uib-pagination class="pagination" force-ellipses="true" rotate="true" boundary-links="true" total-items="totalResults" items-per-page="itemsPerPage" ng-model="input.currentPage" ng-model-options="{debounce: 100}"  ng-change="scrollToTop()" max-size="maxSize" first-text="&lsaquo;&lsaquo;" previous-text="&lsaquo;" next-text="&rsaquo;" last-text="&rsaquo;&rsaquo;"></ul>
+        </div>
+    </div>
+    <!-- Search Module right of resultset -->
+    <div ng-class="getWidth()" ng-if="(search.displaySearch == 'rechts')">
+        <div class="row">
+            <!-- Calendar StartDate - As Inputfield with Datepicker-attachment -->
+            <div ng-class="search.calendar == 'start' ? 'col-md-12' : 'col-md-6'" ng-if="(search.calendar == 'start' || search.calendar == 'startende')">
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            Von...
+                        </span>
+                        <input type="text" class="form-control" uib-datepicker-popup="{{startDateOptions.format}}" ng-model="input.startDate" is-open="startDateDialog.opened" datepicker-options="startDateOptions" ng-required="true" close-text="Schließen" clear-text="Zurücksetzen" current-text="Heute"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openStartDateDialog()"><i class="fa fa-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- Calendar EndDate - As Inputfield with Datepicker-attachment -->
+            <div class="col-md-6" ng-if="(search.calendar == 'startende')">
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            ...bis..
+                        </span>
+                        <input type="text" class="form-control" uib-datepicker-popup="{{endDateOptions.format}}" ng-model="input.endDate" is-open="endDateDialog.opened" datepicker-options="endDateOptions" ng-required="true" close-text="Schließen" clear-text="Zurücksetzen" current-text="Heute"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openEndDateDialog()"><i class="fa fa-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- Calendar StartDAte - As Calendar Datepicker without Inputfield -->
+            <div class="col-md-12 text-center" ng-if="(search.calendar == 'kalender')">
+                <div uib-datepicker ng-model="input.startDate" class="well well-sm" datepicker-options="startDateOptions"></div>
+            </div>
+            <!-- Community-Picker -->
+            <div class="col-md-12" ng-if="search.communities.length > 0">
+                <div class="form-group">
+                    <select class="form-control" ng-model="input.communities">
+                        <option value="">Alle Dekanate</option>
+                        <option ng-repeat="c in search.communities" value="{{c.id}}">{{c.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Category-Picker -->
+            <div class="col-md-12" ng-if="search.categories.length > 0">
+                <div class="form-group">
+                    <select class="form-control" ng-model="input.category">
+                        <option value="">Alle Kategorien</option>
+                        <option ng-repeat="cat in search.categories" value="{{cat.id}}">{{cat.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Target Audiences Select-Box -->
+            <div class="col-md-12" ng-if="search.targetAudiences.length > 0">
+                <div class="form-group">
+                    <select class="form-control" ng-model="input.targetAudience">
+                        <option value="">Alle Zielgruppen</option>
+                        <option ng-repeat="t in search.targetAudiences" value="{{t.id}}">{{t.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Locations Selectbox -->
+            <div class="col-md-12" ng-if="search.locations.length > 0">
+                <div class="form-group">
+                    <select class="form-control" ng-model="input.location">
+                        <option value="">Alle Orte</option>
+                        <option ng-repeat="l in search.locations" value="{{l.id}}">{{l.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Text Search Inputfield -->
+            <div class="col-md-12" ng-if="search.textSearch == 'ja'">
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                        <input type="text" class="form-control" placeholder="Suche" ng-model="input.search" ng-model-options="{ debounce: 500 }">
+                    </div>
+                </div>
+            </div>
+            <!-- Reset Button -->
+            <div class="col-md-12">
+                <p><button class="btn btn-default btn-secondary btn-block" ng-click="resetInput()">Filter zurücksetzen</button></p>
+            </div>
+        </div>
+    </div>
+    <!-- Debug values of resulset - Disable Comments for checkup
+    <div class="col-md-12">
+        <pre>{{results | json}}</pre>
+    </div>
+    -->
+</div>
