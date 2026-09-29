@@ -68,21 +68,28 @@ class KirchenplanerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         $resourceFactory = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             \TYPO3\CMS\Core\Resource\ResourceFactory:: class
         );
-    
-        $apiKey = $extensionConfiguration['apiKey'];
-        $apiUrl = parse_url($extensionConfiguration['apiUrl']);
+
+        $apiKey = $extensionConfiguration['apiKey'] ?? '';
+        $apiUrl = parse_url($extensionConfiguration['apiUrl'] ?? '');
         $apiUrl = $apiUrl['scheme']."://".$apiUrl['host'];
-        $userGroup = explode("|",$extensionConfiguration['userGroup']);
+        $userGroup = explode("|",$extensionConfiguration['userGroup'] ?? '');
         $userGroup = $userGroup[0];
         $appScriptUri = (string)$this->systemResourcePublisher->generateUri(
             $this->systemResourceFactory->createPublicResource('EXT:axkirchenplaner/Resources/Public/Angular/app.js'),
             $request,
             new UriGenerationOptions(absoluteUri: true),
         );
+
+        // $appScriptUri has a timestamp as a query parameter (e.g. ...?1790592247), so we need to remove it first.
+        $publicResourcesArray = explode('?', $appScriptUri);
+        $appScriptUri = $publicResourcesArray[0];
+
         $public_resources = substr($appScriptUri, 0, -strlen('/Angular/app.js'));
 
         //Add CSS Library Files
-        $pageRenderer->addCssFile($public_resources.'/FontAwesome/css/font-awesome.min.css', 'stylesheet', 'all', '', false, false);
+        if ($extensionConfiguration['fontAwesomeCss']) {
+            $pageRenderer->addCssFile($public_resources.'/FontAwesome/css/font-awesome.min.css', 'stylesheet', 'all', '', false, false);
+        }
         $pageRenderer->addCssFile($public_resources.'/Bootstrap4/css/glyphicons.css', 'stylesheet', 'all', '', false, false);
         $pageRenderer->addCssFile($public_resources.'/Css/kirchenplaner.css', 'stylesheet', 'all', '', false, false);
 
@@ -130,10 +137,10 @@ class KirchenplanerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             $pageRenderer->addJsFile($public_resources.'/Bootstrap4/js/bootstrap.min.js', 'text/javascript', false, false);
         }
 
-        $detail_link_type = $this->settings['pageconfig']['detaillinktyp'];
+        $detail_link_type = $this->settings['pageconfig']['detaillinktyp'] ?? '';
 
-        $details_page_id = $this->settings['pageconfig']['detailseite'];
-        
+        $details_page_id = $this->settings['pageconfig']['detailseite'] ?? '';
+
         if (isset($details_page_id) && $details_page_id !== '') {
             $details_page = $this->uriBuilder->reset()
                 ->setTargetPageUid(($details_page_id))
@@ -142,31 +149,30 @@ class KirchenplanerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         } else {
             $details_page = false;
         }
-
-        $format = $this->settings['query']['format'];
-        $topics_list = $this->settings['query']['rubriken'] == null ? '' : $this->settings['query']['rubriken'];
-        $target_audience_list = $this->settings['query']['zielgruppen'] == null ? '' : $this->settings['query']['zielgruppen'];
-        $locations_list = $this->settings['query']['orte'] == null ? '' : $this->settings['query']['orte'];
-        $items_list = $this->settings['query']['termine'];
-        $start_date = $this->settings['query']['startdatum'];
-        $end_date = $this->settings['query']['enddatum'];
-        $days_to_fetch = $this->settings['query']['abruftage'];
-        $override_communities = $this->settings['query']['overridegemeinden'];
-        $communities = $override_communities != '' ? $override_communities : $this->settings['query']['gemeinden'];
-        $include_sub_communities = $this->settings['query']['unterorganisationen'];
-        $items_per_page = $this->settings['pageconfig']['eintraegeproseite'];
-        $holidays = $this->settings['pageconfig']['feiertage'];
-        $groupItems = $this->settings['pageconfig']['datumgruppieren'];
-        $borderColors = $this->settings['pageconfig']['randfarben'];
-        $showPagination = $this->settings['pageconfig']['paginierungzeigen'];
-        $additional_items = $this->settings['pageconfig']['zusatztermine'];
+        $format = $this->settings['query']['format'] ?? '';
+        $topics_list = $this->settings['query']['rubriken'] ?? '';
+        $target_audience_list = $this->settings['query']['zielgruppen'] ?? '';
+        $locations_list = $this->settings['query']['orte'] ?? '';
+        $items_list = $this->settings['query']['termine'] ?? '';
+        $start_date = $this->settings['query']['startdatum'] ?? '';
+        $end_date = $this->settings['query']['enddatum'] ?? '';
+        $days_to_fetch = $this->settings['query']['abruftage'] ?? '';
+        $override_communities = $this->settings['query']['overridegemeinden'] ?? '';
+        $communities = $override_communities ?: ($this->settings['query']['gemeinden'] ?? '');
+        $include_sub_communities = $this->settings['query']['unterorganisationen'] ?? '';
+        $items_per_page = $this->settings['pageconfig']['eintraegeproseite'] ?? '';
+        $holidays = $this->settings['pageconfig']['feiertage'] ?? '';
+        $groupItems = $this->settings['pageconfig']['datumgruppieren'] ?? '';
+        $borderColors = $this->settings['pageconfig']['randfarben'] ?? '';
+        $showPagination = $this->settings['pageconfig']['paginierungzeigen'] ?? '';
+        $additional_items = $this->settings['pageconfig']['zusatztermine'] ?? '';
 
         $date_override = (string)($queryParams['datum'] ?? '');
 
-        $display_search = $this->settings['search']['anzeigen'];
-        $search_text_search = $this->settings['search']['textsuche'];
+        $display_search = $this->settings['search']['anzeigen'] ?? '';
+        $search_text_search = $this->settings['search']['textsuche'] ?? '';
         $search_text_search_value = (string)($queryParams['s'] ?? '');
-        $search_categories = explode(',',$this->settings['search']['kategorien']);
+        $search_categories = explode(',',$this->settings['search']['kategorien'] ?? '');
         $search_categories_raw = file_get_contents($apiUrl."/api/themen", false, stream_context_create($arrContextOptions));
         //Explode String into Array seperated by the newline control char<
         $search_categories_array = explode("\n",$search_categories_raw);
@@ -191,7 +197,7 @@ class KirchenplanerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         }
         $search_category_value = (string)($queryParams['kategorie'] ?? '');
 
-        $search_target_audiences = explode(',',$this->settings['search']['zielgruppen']);
+        $search_target_audiences = explode(',',$this->settings['search']['zielgruppen'] ?? '');
         $search_target_audiences_raw = file_get_contents($apiUrl."/api/zielgruppen", false, stream_context_create($arrContextOptions));
         //Explode String into Array seperated by the newline control char
         $search_target_audiences_array = explode("\n",$search_target_audiences_raw);
@@ -216,7 +222,7 @@ class KirchenplanerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         }
         $search_target_audience_value = (string)($queryParams['zielgruppe'] ?? '');
 
-        $search_locations = explode(',',$this->settings['search']['orte']);
+        $search_locations = explode(',',$this->settings['search']['orte'] ?? '');
         $search_locations_raw = html_entity_decode(file_get_contents($apiUrl.'/api/raeume/{"key":"'.$apiKey.'"}', false, stream_context_create($arrContextOptions)));
         //Explode String into Array seperated by the newline control char
         $search_locations_array = explode("\n",$search_locations_raw);
@@ -242,7 +248,7 @@ class KirchenplanerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
 
         $search_location_value = (string)($queryParams['ort'] ?? '');
 
-        $search_communities = explode(',',$this->settings['search']['gemeinden']);
+        $search_communities = explode(',',$this->settings['search']['gemeinden'] ?? '');
         $search_communities_raw = html_entity_decode(file_get_contents($apiUrl.'/api/organisationen/{"key":"'.$apiKey.'"}', false, stream_context_create($arrContextOptions)));
         //Explode String into Array seperated by the newline control char
         $search_communities_array = json_decode(html_entity_decode($search_communities_raw));
@@ -262,7 +268,7 @@ class KirchenplanerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             }
         }
 
-        $override_search_communities = explode(',',$this->settings['search']['overridegemeinden']);
+        $override_search_communities = explode(',',$this->settings['search']['overridegemeinden'] ?? '');
         $override_search_communities_list = array();
 
         foreach ($override_search_communities as $o){
@@ -275,14 +281,14 @@ class KirchenplanerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             $community['name'] = $split[1];
             $override_search_communities_list[] = $community;
         }
-        if ($this->settings['search']['overridegemeinden'] != ''){
+        if (!empty($this->settings['search']['overridegemeinden'])){
            $search_communities_list = $override_search_communities_list;
         }
 
         $search_community_value = (string)($queryParams['gemeinde'] ?? '');
 
-        $search_calendar = $this->settings['search']['kalender'];
-        $search_past = $this->settings['search']['vergangenheit'];
+        $search_calendar = $this->settings['search']['kalender'] ?? '';
+        $search_past = $this->settings['search']['vergangenheit'] ?? '';
 
         $this->view->assign('uid', $contentObjectData['uid'] ?? 0);
         $this->view->assign('apiKey', $apiKey);
