@@ -21,4 +21,4 @@ Include the static TypoScript template **Kirchenplaner**, then configure the API
 
 ## Classic installation
 
-Download `axkirchenplaner_3.0.0.zip` from the GitHub release and upload it in the TYPO3 Extension Manager. The custom release archive has the extension files directly at its root, as required by the Extension Manager.
+Download `axkirchenplaner_3.0.1.zip` from the GitHub release and upload it in the TYPO3 Extension Manager. The custom release archive has the extension files directly at its root, as required by the Extension Manager.
